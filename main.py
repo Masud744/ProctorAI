@@ -3,13 +3,15 @@ import mediapipe as mp
 import numpy as np
 from collections import deque
 import threading
+import requests
+import time
 from ultralytics import YOLO
 
 from computer_vision.behavior_analysis.attention_score import AttentionScorer
 from computer_vision.behavior_analysis.suspicious_score import SuspiciousScorer
 
 mp_face_detection = mp.solutions.face_detection
-mp_face_mesh = mp.solutions.face_mesh
+mp_face_mesh      = mp.solutions.face_mesh
 
 face_detection = mp_face_detection.FaceDetection(
     model_selection=0, min_detection_confidence=0.5
@@ -34,6 +36,9 @@ phone_detected_global = False
 phone_boxes_global    = []
 yolo_frame            = None
 yolo_lock             = threading.Lock()
+
+last_log_time = time.time()
+STUDENT_ID    = "student_001"
 
 
 def yolo_worker():
@@ -139,6 +144,26 @@ def draw_panel(frame, flags, attention_score, suspicious_score):
     cv2.rectangle(frame, (12, y), (248, y + 16), (100, 100, 100), 1)
 
 
+def send_log(attention_score, suspicious_score, phone_detected,
+             talking, eyes_closed, looking_forward,
+             face_count, multiple_faces, face_present):
+    try:
+        requests.post("http://localhost:8000/api/log", json={
+            "student_id":      STUDENT_ID,
+            "attention_score": attention_score,
+            "suspicious_score": suspicious_score,
+            "phone_detected":  bool(phone_detected),
+            "talking":         bool(talking),
+            "eyes_closed":     bool(eyes_closed),
+            "looking_forward": bool(looking_forward),
+            "face_count":      int(face_count),
+            "multiple_faces":  bool(multiple_faces),
+            "face_present":    bool(face_present)
+        }, timeout=2)
+    except:
+        pass
+
+
 cap = cv2.VideoCapture(0)
 
 while True:
@@ -158,8 +183,8 @@ while True:
     multiple_faces = False
     face_count     = 0
     if det_results.detections:
-        face_present = True
-        face_count   = len(det_results.detections)
+        face_present   = True
+        face_count     = len(det_results.detections)
         multiple_faces = face_count > 1
         for det in det_results.detections:
             bb = det.location_data.relative_bounding_box
@@ -188,7 +213,7 @@ while True:
                 talking = np.var(mar_history) > 0.002
             break
 
-    # Phone boxes
+    # Phone detection
     phone_detected = phone_detected_global
     if phone_detected:
         for (x1, y1, x2, y2) in phone_boxes_global:
@@ -205,6 +230,18 @@ while True:
         looking_forward, eyes_closed, talking,
         phone_detected, face_present, multiple_faces
     )
+
+    #every 5 seconds, send log to server in a separate thread
+    current_time = time.time()
+    if current_time - last_log_time >= 5:
+        threading.Thread(
+            target=send_log,
+            args=(attention_score, suspicious_score, phone_detected,
+                  talking, eyes_closed, looking_forward,
+                  face_count, multiple_faces, face_present),
+            daemon=True
+        ).start()
+        last_log_time = current_time
 
     flags = [
         ("Face present",    face_present),

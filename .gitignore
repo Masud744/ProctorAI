@@ -10,3 +10,6 @@ __pycache__/
 *.onnx
 *.caffemodel
 *.prototxt
+node_modules/
+dist/
+build/
