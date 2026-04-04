@@ -90,6 +90,10 @@ def get_head_pose(face_landmarks, img_w, img_h):
             x, y = int(lm.x * img_w), int(lm.y * img_h)
             face_2d.append([x, y])
             face_3d.append([x, y, lm.z])
+    
+    if len(face_2d) < 6:
+        return True
+        
     face_2d = np.array(face_2d, dtype=np.float64)
     face_3d = np.array(face_3d, dtype=np.float64)
     focal_length = img_w
@@ -106,7 +110,12 @@ def get_head_pose(face_landmarks, img_w, img_h):
         return True
     rmat, _ = cv2.Rodrigues(rot_vec)
     angles, *_ = cv2.RQDecomp3x3(rmat)
-    return (-10 <= angles[1] * 360 <= 10) and (-10 <= angles[0] * 360 <= 10)
+    x_angle = angles[0] * 360
+    y_angle = angles[1] * 360
+    
+    
+    
+    return (-15 <= y_angle <= 15) and (-15 <= x_angle <= 15)
 
 
 def draw_panel(frame, flags, attention_score, suspicious_score):
