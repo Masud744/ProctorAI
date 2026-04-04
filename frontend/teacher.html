@@ -32,13 +32,56 @@
 
     .main { padding: 24px 28px; }
 
+    .filter-bar {
+      background: #12121a;
+      border: 1px solid #1e1e2e;
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .filter-bar label { font-size: 13px; color: #666; }
+    .filter-bar input {
+      padding: 8px 12px;
+      background: #0a0a0f;
+      border: 1px solid #1e1e2e;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 13px;
+      outline: none;
+      width: 220px;
+    }
+    .filter-bar input:focus { border-color: #00d4ff; }
+    .filter-btn {
+      padding: 8px 16px;
+      background: #00d4ff22;
+      border: 1px solid #00d4ff44;
+      color: #00d4ff;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+    .filter-btn:hover { background: #00d4ff33; }
+    .clear-btn {
+      padding: 8px 16px;
+      background: transparent;
+      border: 1px solid #333;
+      color: #666;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+    .clear-btn:hover { border-color: #f87171; color: #f87171; }
+
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 16px;
       margin-bottom: 24px;
     }
-
     .stat-card {
       background: #12121a;
       border: 1px solid #1e1e2e;
@@ -47,9 +90,9 @@
     }
     .stat-card .label { font-size: 12px; color: #666; text-transform: uppercase; letter-spacing: 0.5px; }
     .stat-card .value { font-size: 28px; font-weight: 700; margin-top: 6px; }
-    .stat-card .value.cyan { color: #00d4ff; }
+    .stat-card .value.cyan  { color: #00d4ff; }
     .stat-card .value.green { color: #4ade80; }
-    .stat-card .value.red { color: #f87171; }
+    .stat-card .value.red   { color: #f87171; }
     .stat-card .value.amber { color: #fbbf24; }
 
     .grid-2 {
@@ -58,7 +101,6 @@
       gap: 16px;
       margin-bottom: 24px;
     }
-
     .card {
       background: #12121a;
       border: 1px solid #1e1e2e;
@@ -72,7 +114,6 @@
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
-
     .chart-wrap { position: relative; height: 240px; }
 
     .logs-table { width: 100%; border-collapse: collapse; font-size: 13px; }
@@ -94,7 +135,7 @@
       font-size: 11px;
       font-weight: 600;
     }
-    .badge.danger { background: #2e0d0d; color: #f87171; }
+    .badge.danger  { background: #2e0d0d; color: #f87171; }
     .badge.warning { background: #2e1f0d; color: #fbbf24; }
     .badge.success { background: #0d2e1a; color: #4ade80; }
 
@@ -148,7 +189,7 @@
       margin-right: 6px;
     }
     .dot.green { background: #4ade80; }
-    .dot.red { background: #f87171; }
+    .dot.red   { background: #f87171; }
   </style>
 </head>
 <body>
@@ -162,6 +203,15 @@
 </div>
 
 <div class="main">
+
+  <!-- Filter Bar -->
+  <div class="filter-bar">
+    <label>Filter by Student:</label>
+    <input type="text" id="studentFilter" placeholder="student@email.com">
+    <button class="filter-btn" onclick="applyFilter()">Search</button>
+    <button class="clear-btn" onclick="clearFilter()">Clear</button>
+    <span style="font-size:13px;color:#666;margin-left:8px;" id="filterStatus"></span>
+  </div>
 
   <!-- Stats -->
   <div class="stats-grid">
@@ -243,11 +293,12 @@
 
 <script>
   const API = "http://localhost:8000/api";
+  let currentFilter = null;
 
-  // Auth check
   const user = JSON.parse(localStorage.getItem('user') || 'null');
   if (!user) window.location.href = 'login.html';
-  document.getElementById('welcomeText').textContent = user?.user_metadata?.full_name || user?.email || '';
+  document.getElementById('welcomeText').textContent =
+    user?.user_metadata?.full_name || user?.email || '';
 
   function logout() {
     localStorage.clear();
@@ -257,7 +308,7 @@
   let attChart, suspChart, behavChart;
 
   function initCharts() {
-    const chartOpts = (color) => ({
+    const chartOpts = () => ({
       responsive: true,
       maintainAspectRatio: false,
       plugins: { legend: { display: false } },
@@ -270,13 +321,13 @@
     attChart = new Chart(document.getElementById('attentionChart'), {
       type: 'line',
       data: { labels: [], datasets: [{ data: [], borderColor: '#4ade80', backgroundColor: '#4ade8011', tension: 0.4, fill: true, pointRadius: 3 }] },
-      options: chartOpts('#4ade80')
+      options: chartOpts()
     });
 
     suspChart = new Chart(document.getElementById('suspiciousChart'), {
       type: 'line',
       data: { labels: [], datasets: [{ data: [], borderColor: '#f87171', backgroundColor: '#f8717111', tension: 0.4, fill: true, pointRadius: 3 }] },
-      options: chartOpts('#f87171')
+      options: chartOpts()
     });
 
     behavChart = new Chart(document.getElementById('behaviorChart'), {
@@ -302,15 +353,40 @@
     });
   }
 
+  function applyFilter() {
+    const val = document.getElementById('studentFilter').value.trim();
+    if (!val) return;
+    currentFilter = val;
+    document.getElementById('filterStatus').textContent = `Showing: ${val}`;
+    loadData();
+  }
+
+  function clearFilter() {
+    currentFilter = null;
+    document.getElementById('studentFilter').value = '';
+    document.getElementById('filterStatus').textContent = '';
+    loadData();
+  }
+
   async function loadData() {
     try {
-      const res = await fetch(`${API}/logs`);
+      const url = currentFilter
+        ? `${API}/logs/${encodeURIComponent(currentFilter)}`
+        : `${API}/logs`;
+
+      const res  = await fetch(url);
       const data = await res.json();
       const logs = data.logs || [];
 
       if (logs.length === 0) {
         document.getElementById('logsBody').innerHTML =
-          '<tr><td colspan="9" style="text-align:center;color:#666;padding:24px;">No logs yet</td></tr>';
+          '<tr><td colspan="9" style="text-align:center;color:#666;padding:24px;">No logs found</td></tr>';
+        document.getElementById('totalLogs').textContent    = 0;
+        document.getElementById('avgAttention').textContent = '—';
+        document.getElementById('avgSuspicious').textContent = '—';
+        document.getElementById('highAlerts').textContent   = 0;
+        document.getElementById('alertList').innerHTML =
+          '<p style="color:#666;font-size:13px;">No suspicious events</p>';
         return;
       }
 
@@ -323,10 +399,12 @@
       document.getElementById('avgSuspicious').textContent = avgSusp;
       document.getElementById('highAlerts').textContent    = alerts;
 
-      // Charts — last 20 entries reversed
+      // Charts
       const recent = [...logs].reverse().slice(0, 20);
-      const labels = recent.map(l => new Date(l.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
-      attChart.data.labels  = labels;
+      const labels = recent.map(l =>
+        new Date(l.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      );
+      attChart.data.labels = labels;
       attChart.data.datasets[0].data = recent.map(l => l.attention_score);
       attChart.update();
       suspChart.data.labels = labels;
@@ -347,13 +425,13 @@
       document.getElementById('alertList').innerHTML = highSusp.length === 0
         ? '<p style="color:#666;font-size:13px;">No suspicious events</p>'
         : highSusp.map(l => `
-          <div class="alert-item">
-            <div class="alert-info">
-              <div>${l.student_id}</div>
-              <div class="alert-time">${new Date(l.created_at).toLocaleString()}</div>
-            </div>
-            <div class="alert-score">${l.suspicious_score}</div>
-          </div>`).join('');
+            <div class="alert-item">
+              <div class="alert-info">
+                <div>${l.student_id}</div>
+                <div class="alert-time">${new Date(l.created_at).toLocaleString()}</div>
+              </div>
+              <div class="alert-score">${l.suspicious_score}</div>
+            </div>`).join('');
 
       // Table
       document.getElementById('logsBody').innerHTML = logs.slice(0, 50).map(l => `
@@ -369,7 +447,7 @@
           <td>${l.face_count}</td>
         </tr>`).join('');
 
-    } catch (e) {
+    } catch(e) {
       console.error(e);
     }
   }

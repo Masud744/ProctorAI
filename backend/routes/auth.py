@@ -4,15 +4,22 @@ from backend.database import supabase
 
 router = APIRouter()
 
+
 class SignupRequest(BaseModel):
     email: str
     password: str
     full_name: str
     role: str = "student"
 
+
 class LoginRequest(BaseModel):
     email: str
     password: str
+
+
+class ForgotPasswordRequest(BaseModel):
+    email: str
+
 
 @router.post("/signup")
 def signup(data: SignupRequest):
@@ -28,6 +35,7 @@ def signup(data: SignupRequest):
     })
     return {"message": "Signup successful", "user": response.user}
 
+
 @router.post("/login")
 def login(data: LoginRequest):
     response = supabase.auth.sign_in_with_password({
@@ -38,3 +46,9 @@ def login(data: LoginRequest):
         "access_token": response.session.access_token,
         "user": response.user
     }
+
+
+@router.post("/forgot-password")
+def forgot_password(data: ForgotPasswordRequest):
+    supabase.auth.reset_password_email(data.email)
+    return {"message": "Reset email sent"}
