@@ -57,18 +57,26 @@ function initCharts() {
   });
 }
 
-function applyFilter() {
-  const val = document.getElementById('studentFilter').value.trim();
-  if (!val) return;
-  currentFilter = val;
-  document.getElementById('filterStatus').textContent = `Showing: ${val}`;
-  loadData();
+async function loadStudents() {
+  try {
+    const res  = await fetch(`${API}/students`);
+    const data = await res.json();
+    const select = document.getElementById('studentSelect');
+    select.innerHTML = '<option value="">— All Students —</option>';
+    data.students.forEach(s => {
+      const opt = document.createElement('option');
+      opt.value = s.id;
+      opt.textContent = s.name;
+      select.appendChild(opt);
+    });
+  } catch(e) {
+    console.error(e);
+  }
 }
 
-function clearFilter() {
-  currentFilter = null;
-  document.getElementById('studentFilter').value = '';
-  document.getElementById('filterStatus').textContent = '';
+function applySelectFilter() {
+  const val = document.getElementById('studentSelect').value;
+  currentFilter = val || null;
   loadData();
 }
 
@@ -128,7 +136,7 @@ function updateUI(logs) {
     : highSusp.map(l => `
         <div class="alert-item">
           <div class="alert-info">
-            <div>${l.student_id}</div>
+            <div>${l.student_name || l.student_id}</div>
             <div class="alert-time">${new Date(l.created_at).toLocaleString()}</div>
           </div>
           <div class="alert-score">${l.suspicious_score}</div>
@@ -138,7 +146,7 @@ function updateUI(logs) {
   document.getElementById('logsBody').innerHTML = logs.slice(0, 50).map(l => `
     <tr>
       <td style="color:#666">${new Date(l.created_at).toLocaleString()}</td>
-      <td>${l.student_id}</td>
+      <td>${l.student_name || l.student_id}</td>
       <td><span class="badge ${l.attention_score >= 70 ? 'success' : l.attention_score >= 40 ? 'warning' : 'danger'}">${l.attention_score}</span></td>
       <td><span class="badge ${l.suspicious_score >= 50 ? 'danger' : 'success'}">${l.suspicious_score}</span></td>
       <td><span class="dot ${l.phone_detected ? 'red' : 'green'}"></span>${l.phone_detected ? 'Yes' : 'No'}</td>
@@ -172,8 +180,10 @@ async function loadData() {
 }
 
 initCharts();
+loadStudents();
 loadData();
 setInterval(loadData, 10000);
+setInterval(loadStudents, 30000);
 setInterval(() => {
   fetch(`${API.replace('/api', '')}/`).catch(() => {});
 }, 30000);

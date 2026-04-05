@@ -20,12 +20,12 @@
 <div class="main">
 
   <div class="filter-bar">
-    <label>Filter by Student:</label>
-    <input type="text" id="studentFilter" placeholder="student@email.com">
-    <button class="filter-btn" onclick="applyFilter()">Search</button>
-    <button class="clear-btn" onclick="clearFilter()">Clear</button>
-    <span id="filterStatus"></span>
-  </div>
+  <label>Filter by Student:</label>
+  <select id="studentSelect" onchange="applySelectFilter()">
+    <option value="">— All Students —</option>
+  </select>
+  <span id="filterStatus"></span>
+</div>
 
   <div class="stats-grid">
     <div class="stat-card">

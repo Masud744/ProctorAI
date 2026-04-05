@@ -54,16 +54,22 @@ async function login() {
 }
 
 async function signup() {
-  const full_name = document.getElementById('signupName').value;
-  const email     = document.getElementById('signupEmail').value;
-  const password  = document.getElementById('signupPassword').value;
-  const role      = document.getElementById('signupRole').value;
-  if (!full_name || !email || !password) { showMsg('signupMsg', 'Please fill all fields', 'error'); return; }
+  const full_name  = document.getElementById('signupName').value;
+  const email      = document.getElementById('signupEmail').value;
+  const password   = document.getElementById('signupPassword').value;
+  const role       = document.getElementById('signupRole').value;
+  const student_id = document.getElementById('signupStudentId').value;
+
+  if (!full_name || !email || !password) {
+    showMsg('signupMsg', 'Please fill all fields', 'error');
+    return;
+  }
+
   try {
-    const res  = await fetch(`${API}/auth/signup`, {
+    const res = await fetch(`${API}/auth/signup`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password, full_name, role })
+      body: JSON.stringify({ email, password, full_name, role, student_id })
     });
     const data = await res.json();
     if (res.ok) {
@@ -72,9 +78,15 @@ async function signup() {
       showMsg('signupMsg', data.detail || 'Signup failed', 'error');
     }
   } catch(e) {
-    showMsg('signupMsg', 'Server error. Is backend running?', 'error');
+    showMsg('signupMsg', 'Server error.', 'error');
   }
 }
+
+
+document.getElementById('signupRole').addEventListener('change', function() {
+  const group = document.getElementById('studentIdGroup');
+  group.style.display = this.value === 'student' ? 'block' : 'none';
+});
 
 async function forgotPassword() {
   const email = document.getElementById('forgotEmail').value.trim();

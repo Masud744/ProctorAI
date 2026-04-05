@@ -38,7 +38,7 @@ body { background: #0a0a0f; color: #fff; font-family: 'Segoe UI', sans-serif; }
   flex-wrap: wrap;
 }
 .filter-bar label { font-size: 13px; color: #666; }
-.filter-bar input {
+.filter-bar select {
   padding: 8px 12px;
   background: #0a0a0f;
   border: 1px solid #1e1e2e;
@@ -46,29 +46,11 @@ body { background: #0a0a0f; color: #fff; font-family: 'Segoe UI', sans-serif; }
   color: #fff;
   font-size: 13px;
   outline: none;
-  width: 220px;
-}
-.filter-bar input:focus { border-color: #00d4ff; }
-.filter-btn {
-  padding: 8px 16px;
-  background: #00d4ff22;
-  border: 1px solid #00d4ff44;
-  color: #00d4ff;
-  border-radius: 8px;
+  min-width: 220px;
   cursor: pointer;
-  font-size: 13px;
 }
-.filter-btn:hover { background: #00d4ff33; }
-.clear-btn {
-  padding: 8px 16px;
-  background: transparent;
-  border: 1px solid #333;
-  color: #666;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 13px;
-}
-.clear-btn:hover { border-color: #f87171; color: #f87171; }
+.filter-bar select:focus { border-color: #00d4ff; }
+.filter-bar select option { background: #0a0a0f; }
 #filterStatus { font-size: 13px; color: #666; }
 
 .stats-grid {

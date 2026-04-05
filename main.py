@@ -38,7 +38,8 @@ yolo_frame            = None
 yolo_lock             = threading.Lock()
 
 last_log_time = time.time()
-STUDENT_ID = "student@test.com"  
+STUDENT_ID   = "student@test.com"
+STUDENT_NAME = "Test Student"  
 
 
 def yolo_worker():
@@ -159,6 +160,7 @@ def send_log(attention_score, suspicious_score, phone_detected,
     try:
         requests.post("https://ai-classroom-exam-monitoring.onrender.com/api/log", json={
             "student_id":      STUDENT_ID,
+            "student_name": STUDENT_NAME,
             "attention_score": attention_score,
             "suspicious_score": suspicious_score,
             "phone_detected":  bool(phone_detected),

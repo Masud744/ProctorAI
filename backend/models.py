@@ -1,9 +1,9 @@
 from pydantic import BaseModel
-from datetime import datetime
 from typing import Optional
 
 class MonitoringLog(BaseModel):
     student_id: str
+    student_name: Optional[str] = None
     attention_score: int
     suspicious_score: int
     phone_detected: bool

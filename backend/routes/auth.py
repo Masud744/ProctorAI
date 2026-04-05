@@ -10,6 +10,7 @@ class SignupRequest(BaseModel):
     password: str
     full_name: str
     role: str = "student"
+    student_id: Optional[str] = None
 
 
 class LoginRequest(BaseModel):
@@ -29,7 +30,8 @@ def signup(data: SignupRequest):
         "options": {
             "data": {
                 "full_name": data.full_name,
-                "role": data.role
+                "role": data.role,
+                "student_id": data.student_id
             }
         }
     })

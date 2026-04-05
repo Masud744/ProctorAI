@@ -66,7 +66,12 @@ def get_alerts():
 @router.get("/students")
 def get_students():
     response = supabase.table("monitoring_logs")\
-        .select("student_id")\
+        .select("student_id, student_name")\
         .execute()
-    ids = list(set([r["student_id"] for r in response.data]))
-    return {"students": ids}
+    seen = {}
+    for r in response.data:
+        sid = r["student_id"]
+        if sid not in seen:
+            seen[sid] = r.get("student_name") or sid
+    students = [{"id": k, "name": v} for k, v in seen.items()]
+    return {"students": students}
