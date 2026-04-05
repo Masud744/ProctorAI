@@ -1,0 +1,118 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  min-height: 100vh;
+  background: #0a0a0f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Segoe UI', sans-serif;
+  color: #fff;
+}
+
+.container { width: 100%; max-width: 420px; padding: 20px; }
+
+.logo { text-align: center; margin-bottom: 32px; }
+.logo h1 { font-size: 22px; font-weight: 700; color: #00d4ff; letter-spacing: 1px; }
+.logo p { font-size: 13px; color: #666; margin-top: 4px; }
+
+.card {
+  background: #12121a;
+  border: 1px solid #1e1e2e;
+  border-radius: 16px;
+  padding: 32px;
+}
+
+.tabs {
+  display: flex;
+  margin-bottom: 28px;
+  background: #0a0a0f;
+  border-radius: 8px;
+  padding: 4px;
+}
+
+.tab {
+  flex: 1;
+  padding: 8px;
+  text-align: center;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 6px;
+  color: #666;
+  transition: all 0.2s;
+}
+
+.tab.active { background: #1e1e2e; color: #00d4ff; font-weight: 600; }
+
+.form-group { margin-bottom: 16px; }
+
+label {
+  display: block;
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+input, select {
+  width: 100%;
+  padding: 12px 14px;
+  background: #0a0a0f;
+  border: 1px solid #1e1e2e;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+input:focus, select:focus { border-color: #00d4ff; }
+select option { background: #0a0a0f; }
+
+.btn {
+  width: 100%;
+  padding: 13px;
+  background: #00d4ff;
+  color: #000;
+  font-weight: 700;
+  font-size: 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: opacity 0.2s;
+}
+
+.btn:hover { opacity: 0.85; }
+
+.forgot-link, .back-link {
+  display: block;
+  text-align: center;
+  margin-top: 12px;
+  font-size: 13px;
+  color: #555;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.forgot-link:hover, .back-link:hover { color: #00d4ff; }
+
+.forgot-desc { font-size: 13px; color: #666; margin-bottom: 20px; line-height: 1.6; }
+
+.message {
+  margin-top: 14px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  display: none;
+}
+.message.success {
+  background: #0d2e1a; color: #4ade80;
+  border: 1px solid #166534; display: block;
+}
+.message.error {
+  background: #2e0d0d; color: #f87171;
+  border: 1px solid #991b1b; display: block;
+}
+
+.hidden { display: none; }

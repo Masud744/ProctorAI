@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teacher Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+</head>
+<body>
+
+<div class="navbar">
+  <h1>⬡ AI EXAM MONITOR — Teacher Dashboard</h1>
+  <div class="nav-right">
+    <span id="welcomeText"></span>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </div>
+</div>
+
+<div class="main">
+
+  <div class="filter-bar">
+    <label>Filter by Student:</label>
+    <input type="text" id="studentFilter" placeholder="student@email.com">
+    <button class="filter-btn" onclick="applyFilter()">Search</button>
+    <button class="clear-btn" onclick="clearFilter()">Clear</button>
+    <span id="filterStatus"></span>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="label">Total Logs</div>
+      <div class="value cyan" id="totalLogs">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Avg Attention</div>
+      <div class="value green" id="avgAttention">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Avg Suspicious</div>
+      <div class="value amber" id="avgSuspicious">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">High Alerts</div>
+      <div class="value red" id="highAlerts">—</div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h2>Attention Score Over Time</h2>
+      <div class="chart-wrap">
+        <canvas id="attentionChart"></canvas>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Suspicious Score Over Time</h2>
+      <div class="chart-wrap">
+        <canvas id="suspiciousChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h2>🚨 High Suspicious Events</h2>
+      <div class="alert-list" id="alertList"></div>
+    </div>
+    <div class="card">
+      <h2>Behavior Breakdown</h2>
+      <div class="chart-wrap">
+        <canvas id="behaviorChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="full-card">
+    <h2>
+      Recent Monitoring Logs
+      <button class="refresh-btn" onclick="loadData()">↻ Refresh</button>
+    </h2>
+    <div class="table-wrap">
+      <table class="logs-table">
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Student</th>
+            <th>Attention</th>
+            <th>Suspicious</th>
+            <th>Phone</th>
+            <th>Talking</th>
+            <th>Eyes</th>
+            <th>Looking</th>
+            <th>Faces</th>
+          </tr>
+        </thead>
+        <tbody id="logsBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<script src="../config.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

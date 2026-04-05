@@ -1,0 +1,1 @@
+const API = "https://ai-classroom-exam-monitoring.onrender.com/api";

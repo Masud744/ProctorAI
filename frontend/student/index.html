@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+</head>
+<body>
+
+<div class="navbar">
+  <h1>⬡ AI EXAM MONITOR — Student Dashboard</h1>
+  <div class="nav-right">
+    <span id="welcomeText"></span>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </div>
+</div>
+
+<div class="main">
+
+  <div class="welcome-banner">
+    <div>
+      <h2 id="welcomeName">Welcome!</h2>
+      <p>Your monitoring session is being tracked in real time.</p>
+    </div>
+    <div id="overallStatus" class="status-badge good">Good Standing</div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="label">Total Sessions</div>
+      <div class="value cyan" id="totalSessions">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Avg Attention</div>
+      <div class="value green" id="avgAttention">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Avg Suspicious</div>
+      <div class="value amber" id="avgSuspicious">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Alerts</div>
+      <div class="value red" id="myAlerts">—</div>
+    </div>
+  </div>
+
+  <div class="score-display">
+    <div class="score-card">
+      <div class="title">Latest Attention Score</div>
+      <div class="score-circle green" id="latestAttention">—</div>
+      <div class="desc">Higher is better (0-100)</div>
+    </div>
+    <div class="score-card">
+      <div class="title">Latest Suspicious Score</div>
+      <div class="score-circle green" id="latestSuspicious">—</div>
+      <div class="desc">Lower is better (0-100)</div>
+    </div>
+    <div class="score-card">
+      <div class="title">Improvement Tips</div>
+      <ul class="tip-list" id="tipList">
+        <li><span>💡</span> Loading your tips...</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h2>My Attention Score Over Time</h2>
+      <div class="chart-wrap">
+        <canvas id="attChart"></canvas>
+      </div>
+    </div>
+    <div class="card">
+      <h2>My Suspicious Score Over Time</h2>
+      <div class="chart-wrap">
+        <canvas id="suspChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="full-card">
+    <h2>My Monitoring History</h2>
+    <div class="table-wrap">
+      <table class="logs-table">
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Attention</th>
+            <th>Suspicious</th>
+            <th>Phone</th>
+            <th>Talking</th>
+            <th>Eyes</th>
+            <th>Looking</th>
+          </tr>
+        </thead>
+        <tbody id="myLogsBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<script src="../config.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
