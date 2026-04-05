@@ -157,7 +157,7 @@ def send_log(attention_score, suspicious_score, phone_detected,
              talking, eyes_closed, looking_forward,
              face_count, multiple_faces, face_present):
     try:
-        requests.post("http://localhost:8000/api/log", json={
+        requests.post("https://ai-classroom-exam-monitoring.onrender.com/api/log", json={
             "student_id":      STUDENT_ID,
             "attention_score": attention_score,
             "suspicious_score": suspicious_score,
