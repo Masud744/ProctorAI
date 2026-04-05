@@ -82,6 +82,12 @@ function updateUI(logs) {
     document.getElementById('highAlerts').textContent    = 0;
     document.getElementById('alertList').innerHTML =
       '<p style="color:#666;font-size:13px;">No suspicious events</p>';
+    attChart.data.labels = [];
+    attChart.data.datasets[0].data = [];
+    attChart.update();
+    suspChart.data.labels = [];
+    suspChart.data.datasets[0].data = [];
+    suspChart.update();
     return;
   }
 
