@@ -29,7 +29,10 @@ function showMsg(id, text, type) {
 async function login() {
   const email    = document.getElementById('loginEmail').value;
   const password = document.getElementById('loginPassword').value;
-  if (!email || !password) { showMsg('loginMsg', 'Please fill all fields', 'error'); return; }
+  if (!email || !password) {
+    showMsg('loginMsg', 'Please fill all fields', 'error');
+    return;
+  }
   try {
     const res  = await fetch(`${API}/auth/login`, {
       method: 'POST',
@@ -54,14 +57,17 @@ async function login() {
 }
 
 async function signup() {
-  const full_name  = document.getElementById('signupName').value;
-  const email      = document.getElementById('signupEmail').value;
+  const full_name  = document.getElementById('signupName').value.trim();
+  const student_id = document.getElementById('signupStudentId').value.trim();
+  const email      = document.getElementById('signupEmail').value.trim();
   const password   = document.getElementById('signupPassword').value;
-  const role       = document.getElementById('signupRole').value;
-  const student_id = document.getElementById('signupStudentId').value;
 
-  if (!full_name || !email || !password) {
+  if (!full_name || !student_id || !email || !password) {
     showMsg('signupMsg', 'Please fill all fields', 'error');
+    return;
+  }
+  if (password.length < 6) {
+    showMsg('signupMsg', 'Password must be at least 6 characters', 'error');
     return;
   }
 
@@ -69,7 +75,13 @@ async function signup() {
     const res = await fetch(`${API}/auth/signup`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password, full_name, role, student_id })
+      body: JSON.stringify({
+        email,
+        password,
+        full_name,
+        role: 'student',
+        student_id
+      })
     });
     const data = await res.json();
     if (res.ok) {
@@ -82,15 +94,12 @@ async function signup() {
   }
 }
 
-
-document.getElementById('signupRole').addEventListener('change', function() {
-  const group = document.getElementById('studentIdGroup');
-  group.style.display = this.value === 'student' ? 'block' : 'none';
-});
-
 async function forgotPassword() {
   const email = document.getElementById('forgotEmail').value.trim();
-  if (!email) { showMsg('forgotMsg', 'Please enter your email', 'error'); return; }
+  if (!email) {
+    showMsg('forgotMsg', 'Please enter your email', 'error');
+    return;
+  }
   try {
     const res = await fetch(`${API}/auth/forgot-password`, {
       method: 'POST',

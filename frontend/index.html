@@ -39,11 +39,10 @@
           <label>Full Name</label>
           <input type="text" id="signupName" placeholder="Your full name">
         </div>
-        
-<div class="form-group" id="studentIdGroup">
-  <label>Student ID</label>
-  <input type="text" id="signupStudentId" placeholder="e.g. STU-2024-001">
-</div>
+        <div class="form-group">
+          <label>Student ID</label>
+          <input type="text" id="signupStudentId" placeholder="e.g. STU-2024-001">
+        </div>
         <div class="form-group">
           <label>Email</label>
           <input type="email" id="signupEmail" placeholder="you@example.com">
@@ -52,13 +51,10 @@
           <label>Password</label>
           <input type="password" id="signupPassword" placeholder="Min 6 characters">
         </div>
-        <div class="form-group">
-          <label>Role</label>
-          <select id="signupRole">
-            <option value="student">Student</option>
-            <option value="teacher">Teacher</option>
-          </select>
-        </div>
+        <!-- Role hidden — always student -->
+        <select id="signupRole" style="display:none;">
+          <option value="student">Student</option>
+        </select>
         <button class="btn" onclick="signup()">Create Account</button>
         <div id="signupMsg" class="message"></div>
       </div>

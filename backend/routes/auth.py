@@ -30,8 +30,8 @@ def signup(data: SignupRequest):
         "password": data.password,
         "options": {
             "data": {
-                "full_name": data.full_name,
-                "role": data.role,
+                "full_name":  data.full_name,
+                "role":       data.role,
                 "student_id": data.student_id
             }
         }
@@ -42,12 +42,12 @@ def signup(data: SignupRequest):
 @router.post("/login")
 def login(data: LoginRequest):
     response = supabase.auth.sign_in_with_password({
-        "email": data.email,
+        "email":    data.email,
         "password": data.password
     })
     return {
         "access_token": response.session.access_token,
-        "user": response.user
+        "user":         response.user
     }
 
 

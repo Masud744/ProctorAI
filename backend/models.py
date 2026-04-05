@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from typing import Optional
 
+
 class MonitoringLog(BaseModel):
     student_id: str
     student_name: Optional[str] = None
