@@ -21,11 +21,11 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pip install opencv-python mediapipe==0.10.9 ultralytics requests numpy pyinstaller
+        pip install opencv-contrib-python opencv-python mediapipe ultralytics requests numpy pyinstaller
 
     - name: Build EXE
       run: |
-        pyinstaller --onefile --windowed --name "ProctorAI" --add-data "yolov8n.pt;." --add-data "computer_vision;computer_vision" --hidden-import "computer_vision.behavior_analysis.attention_score" --hidden-import "computer_vision.behavior_analysis.suspicious_score" main.py
+        pyinstaller --onefile --windowed --name "ProctorAI" --add-data "yolov8n.pt;." --add-data "computer_vision;computer_vision" --hidden-import cv2 --hidden-import cv2.cv2 --hidden-import mediapipe --hidden-import mediapipe.solutions --hidden-import mediapipe.tasks --hidden-import numpy --hidden-import numpy.core --hidden-import numpy.linalg --hidden-import ultralytics --hidden-import ultralytics.nn --hidden-import computer_vision.behavior_analysis.attention_score --hidden-import computer_vision.behavior_analysis.suspicious_score --collect-all mediapipe --collect-all numpy --collect-all ultralytics main.py
 
     - name: Upload EXE as artifact
       uses: actions/upload-artifact@v3

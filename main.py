@@ -6,7 +6,16 @@ import threading
 import requests
 import time
 import tkinter as tk
+import sys
+import os
 from ultralytics import YOLO
+
+if getattr(sys, 'frozen', False):
+    BASE_PATH = sys._MEIPASS
+else:
+    BASE_PATH = os.path.dirname(os.path.abspath(__file__))
+
+sys.path.insert(0, os.path.join(BASE_PATH, 'computer_vision'))
 
 from computer_vision.behavior_analysis.attention_score import AttentionScorer
 from computer_vision.behavior_analysis.suspicious_score import SuspiciousScorer
@@ -110,7 +119,7 @@ face_mesh = mp_face_mesh.FaceMesh(
     min_detection_confidence=0.5, min_tracking_confidence=0.5
 )
 
-yolo_model = YOLO("yolov8n.pt")
+yolo_model = YOLO(os.path.join(BASE_PATH, "yolov8n.pt"))
 
 LEFT_EYE      = [33, 160, 158, 133, 153, 144]
 RIGHT_EYE     = [362, 385, 387, 263, 373, 380]
