@@ -29,7 +29,7 @@ jobs:
 
       - name: Build EXE
         run: |
-          pyinstaller --onefile --windowed --name "ProctorAI" --add-data "yolov8n.pt;." --add-data "computer_vision;computer_vision" --hidden-import "computer_vision.behavior_analysis.attention_score" --hidden-import "computer_vision.behavior_analysis.suspicious_score" main.py
+          pyinstaller --onefile --windowed --name "ProctorAI" --add-data "yolov8n.pt;." --add-data "computer_vision;computer_vision" --collect-data mediapipe --hidden-import "computer_vision.behavior_analysis.attention_score" --hidden-import "computer_vision.behavior_analysis.suspicious_score" main.py
 
       - name: Upload EXE as artifact
         uses: actions/upload-artifact@v4
