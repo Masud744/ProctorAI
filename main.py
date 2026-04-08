@@ -26,7 +26,7 @@ def get_student_credentials():
     result = {"email": None, "name": None, "success": False}
 
     root = tk.Tk()
-    root.title("AI Exam Monitor — Login")
+    root.title("ProctorAI — Login")
     root.geometry("380x300")
     root.configure(bg="#0a0a0f")
     root.resizable(False, False)
@@ -36,7 +36,7 @@ def get_student_credentials():
     y = (root.winfo_screenheight() // 2) - 150
     root.geometry(f"+{x}+{y}")
 
-    tk.Label(root, text="AI EXAM MONITOR", fg="#00d4ff", bg="#0a0a0f",
+    tk.Label(root, text="ProctorAI", fg="#00d4ff", bg="#0a0a0f",
              font=("Arial", 14, "bold")).pack(pady=(24, 4))
     tk.Label(root, text="Student Monitoring Login", fg="#666666", bg="#0a0a0f",
              font=("Arial", 10)).pack(pady=(0, 20))
@@ -217,7 +217,7 @@ def draw_panel(frame, flags, attention_score, suspicious_score):
     overlay = frame.copy()
     cv2.rectangle(overlay, (0, 0), (260, frame.shape[0]), (20, 20, 20), -1)
     cv2.addWeighted(overlay, 0.65, frame, 0.35, 0, frame)
-    cv2.putText(frame, "AI EXAM MONITOR", (10, 32),
+    cv2.putText(frame, "ProctorAI", (10, 32),
                 cv2.FONT_HERSHEY_DUPLEX, 0.7, (0, 200, 255), 1)
     cv2.putText(frame, STUDENT_NAME[:28], (10, 52),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.45, (100, 100, 100), 1)

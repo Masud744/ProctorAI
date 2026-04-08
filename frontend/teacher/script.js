@@ -17,20 +17,76 @@ function initCharts() {
     maintainAspectRatio: false,
     plugins: { legend: { display: false } },
     scales: {
-      x: { ticks: { color: '#555', font: { size: 10 } }, grid: { color: '#1e1e2e' } },
-      y: { min: 0, max: 100, ticks: { color: '#555' }, grid: { color: '#1e1e2e' } }
+      x: { 
+        ticks: { color: '#6b7280', font: { size: 10, family: 'Inter' } }, 
+        grid: { display: false } 
+      },
+      y: { 
+        min: 0, 
+        max: 100, 
+        ticks: { color: '#6b7280', font: { family: 'Inter' } }, 
+        grid: { color: 'rgba(255,255,255,0.04)' } 
+      }
+    },
+    elements: {
+      line: { borderWidth: 2.5 },
+      point: { radius: 0, hoverRadius: 5 }
+    },
+    interaction: {
+      intersect: false,
+      mode: 'index'
     }
   });
 
   attChart = new Chart(document.getElementById('attentionChart'), {
     type: 'line',
-    data: { labels: [], datasets: [{ data: [], borderColor: '#4ade80', backgroundColor: '#4ade8011', tension: 0.4, fill: true, pointRadius: 3 }] },
+    data: { 
+      labels: [], 
+      datasets: [{ 
+        data: [], 
+        borderColor: '#7c3aed', 
+        backgroundColor: (context) => {
+          const ctx = context.chart.ctx;
+          const gradient = ctx.createLinearGradient(0, 0, 0, 200);
+          gradient.addColorStop(0, 'rgba(124, 58, 237, 0.25)');
+          gradient.addColorStop(1, 'rgba(124, 58, 237, 0)');
+          return gradient;
+        },
+        tension: 0.4, 
+        fill: true, 
+        pointRadius: 0,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: '#7c3aed',
+        pointHoverBorderColor: '#13162a',
+        pointHoverBorderWidth: 2
+      }] 
+    },
     options: opts()
   });
 
   suspChart = new Chart(document.getElementById('suspiciousChart'), {
     type: 'line',
-    data: { labels: [], datasets: [{ data: [], borderColor: '#f87171', backgroundColor: '#f8717111', tension: 0.4, fill: true, pointRadius: 3 }] },
+    data: { 
+      labels: [], 
+      datasets: [{ 
+        data: [], 
+        borderColor: '#a78bfa', 
+        backgroundColor: (context) => {
+          const ctx = context.chart.ctx;
+          const gradient = ctx.createLinearGradient(0, 0, 0, 200);
+          gradient.addColorStop(0, 'rgba(167, 139, 250, 0.25)');
+          gradient.addColorStop(1, 'rgba(167, 139, 250, 0)');
+          return gradient;
+        },
+        tension: 0.4, 
+        fill: true, 
+        pointRadius: 0,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: '#a78bfa',
+        pointHoverBorderColor: '#13162a',
+        pointHoverBorderWidth: 2
+      }] 
+    },
     options: opts()
   });
 
@@ -40,8 +96,9 @@ function initCharts() {
       labels: ['Phone Detected', 'Talking', 'Eyes Closed', 'Looking Away'],
       datasets: [{
         data: [0, 0, 0, 0],
-        backgroundColor: ['#f87171', '#fbbf24', '#818cf8', '#34d399'],
-        borderWidth: 0
+        backgroundColor: ['#7c3aed', '#a78bfa', '#c4b5fd', '#3b82f6'],
+        borderWidth: 0,
+        hoverOffset: 6
       }]
     },
     options: {
@@ -50,9 +107,16 @@ function initCharts() {
       plugins: {
         legend: {
           position: 'bottom',
-          labels: { color: '#888', font: { size: 11 }, padding: 12 }
+          labels: { 
+            color: '#9ca3af', 
+            font: { size: 11, family: 'Inter' }, 
+            padding: 14,
+            usePointStyle: true,
+            pointStyle: 'circle'
+          }
         }
-      }
+      },
+      cutout: '72%'
     }
   });
 }
