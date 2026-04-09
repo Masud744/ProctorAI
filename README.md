@@ -1,16 +1,26 @@
 # ProctorAI — AI Classroom & Exam Monitoring System
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Version-1.7.0-blue.svg" alt="Version">
-  <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License">
-  <img src="https://img.shields.io/badge/Python-3.10+-orange.svg" alt="Python">
-  <img src="https://img.shields.io/badge/FastAPI-Backend-teal.svg" alt="FastAPI">
-  <img src="https://img.shields.io/badge/Platform-Windows-blue.svg" alt="Platform">
-  <img src="https://img.shields.io/badge/Build-Passing-brightgreen.svg" alt="Build">
+  <img src="https://img.shields.io/badge/Python-3.10+-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python">
+  <img src="https://img.shields.io/badge/FastAPI-Backend-009688?style=flat-square&logo=fastapi&logoColor=white" alt="FastAPI">
+  <img src="https://img.shields.io/badge/OpenCV-Computer Vision-5C3EE8?style=flat-square&logo=opencv&logoColor=white" alt="OpenCV">
+  <img src="https://img.shields.io/badge/MediaPipe-Face Detection-00BCD4?style=flat-square&logoColor=white" alt="MediaPipe">
+  <img src="https://img.shields.io/badge/YOLOv8-Object Detection-FF6F00?style=flat-square&logoColor=white" alt="YOLO">
+  <img src="https://img.shields.io/badge/Supabase-Database-3ECF8E?style=flat-square&logo=supabase&logoColor=white" alt="Supabase">
+  <img src="https://img.shields.io/badge/Chart.js-Analytics-FF6384?style=flat-square&logo=chartdotjs&logoColor=white" alt="Chartjs">
+  <img src="https://img.shields.io/badge/HTML-Frontend-E34F26?style=flat-square&logo=html5&logoColor=white" alt="HTML">
+  <img src="https://img.shields.io/badge/CSS-Frontend-1572B6?style=flat-square&logo=css3&logoColor=white" alt="CSS">
+  <img src="https://img.shields.io/badge/JavaScript-Frontend-F7DF1E?style=flat-square&logo=javascript&logoColor=black" alt="JS">
+  <img src="https://img.shields.io/badge/Netlify-Frontend Hosting-00C7B7?style=flat-square&logo=netlify&logoColor=white" alt="Netlify">
+  <img src="https://img.shields.io/badge/Render-Backend Hosting-46E3B7?style=flat-square&logo=render&logoColor=white" alt="Render">
+  <img src="https://img.shields.io/badge/GitHub Actions-CI/CD-2088FF?style=flat-square&logo=githubactions&logoColor=white" alt="Actions">
+  <img src="https://img.shields.io/badge/PyInstaller-EXE Build-336791?style=flat-square&logoColor=white" alt="PyInstaller">
+  <img src="https://img.shields.io/badge/License-MIT-4CAF50?style=flat-square" alt="License">
+  <img src="https://img.shields.io/badge/Build-Passing-brightgreen?style=flat-square" alt="Build">
 </p>
 
 <p align="center">
-  <>Real-time AI-powered exam proctoring system with face detection, phone detection, behavior analysis, and a live teacher dashboard.</
+  AI-powered real-time exam monitoring system using computer vision to detect suspicious activities such as phone usage, head movement, eye closure, and talking, combined with a modern analytics dashboard for student behavior tracking.
 </p>
 
 ---
@@ -162,6 +172,7 @@ ai-classroom-exam-monitoring/
 ├── Procfile                         # Render deployment config
 ├── runtime.txt                      # Python version for Render
 ├── ProctorAI.spec                   # PyInstaller build spec
+├── LICENSE                           # MIT License
 │
 ├── computer_vision/                 # All CV logic
 │   └── behavior_analysis/
@@ -809,9 +820,7 @@ LinkedIn: https://www.linkedin.com/in/shahriar-alom-masud
 
 ## License
 
-MIT License — Copyright © 2026 ProctorAI
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software.
+See [LICENSE](LICENSE) file for full MIT License details.
 
 ---
 
