@@ -47,10 +47,8 @@ def get_all_logs():
     response = supabase.table("monitoring_logs")\
         .select("*")\
         .order("created_at", desc=True)\
-        .limit(100)\
         .execute()
     return {"logs": response.data}
-
 
 @router.get("/alerts")
 def get_alerts():
